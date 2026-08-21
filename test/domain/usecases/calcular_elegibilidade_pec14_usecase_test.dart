@@ -15,7 +15,7 @@ void main() {
         dataReferencia: DateTime(2024, 1, 1),
       );
 
-      expect(resultado.dataElegibilidade, DateTime(2025, 1, 31));
+      expect(resultado.dataElegibilidade, DateTime(2021, 7, 17));
     });
 
     test('Regra 1/2 usa anos completos e aniversários (masculino)', () {
@@ -56,7 +56,7 @@ void main() {
           dataReferencia: DateTime(2024, 1, 1),
         );
 
-        expect(resultado.dataElegibilidade, DateTime(2025, 6, 1));
+        expect(resultado.dataElegibilidade, DateTime(2021, 9, 16));
       },
     );
 
@@ -91,9 +91,26 @@ void main() {
       );
     });
 
-    test('Regra 3 mantém requisito de 15 anos só em outros tempos', () {
+    test('Regra 3 completa pontos com ACS/ACE entre 10 e 25 anos', () {
       final resultado = useCase(
-        dataNascimento: DateTime(1970, 1, 1),
+        dataNascimento: DateTime(1960, 1, 1),
+        dataInicioAcsAce: DateTime(2015, 6, 1),
+        anosOutroTempo: 0,
+        mesesOutroTempo: 0,
+        genero: Genero.feminino,
+        dataReferencia: DateTime(2024, 1, 1),
+      );
+
+      expect(resultado.regraAplicada, contains('Regra 3'));
+      expect(resultado.dataElegibilidade, DateTime(2029, 3, 17));
+      expect(resultado.dataElegibilidade.isAfter(DateTime(2025, 6, 1)), isTrue);
+      expect(resultado.pontosExigidos, 83.0);
+      expect(resultado.pontosCalculados, greaterThanOrEqualTo(83.0));
+    });
+
+    test('Regra 3 não exige 15 anos em outros tempos', () {
+      final resultado = useCase(
+        dataNascimento: DateTime(1960, 1, 1),
         dataInicioAcsAce: DateTime(2000, 1, 1),
         anosOutroTempo: 14,
         mesesOutroTempo: 11,
@@ -101,7 +118,9 @@ void main() {
         dataReferencia: DateTime(2024, 1, 1),
       );
 
-      expect(resultado.regraAplicada, isNot(contains('Regra 3')));
+      expect(resultado.regraAplicada, contains('Regra 3'));
+      expect(resultado.dataElegibilidade, DateTime(2020, 1, 1));
+      expect(resultado.pontosExigidos, 83.0);
     });
 
     test('Regra 3 calcula pontos em dias (valor numérico esperado)', () {
@@ -125,10 +144,18 @@ void main() {
       final dataOutros = DateTime(2015, 1, 1);
       final diasOutros = dataOutros.difference(anchor).inDays;
 
-      final pontos = (diasIdade + diasAcs + diasOutros) / 365.0;
+      const diasPorAno = 365.25;
+      final pontosIdade = diasIdade / diasPorAno;
+      final pontosAcs = diasAcs / diasPorAno;
+      final pontosOutros = diasOutros / diasPorAno;
+      final pontos = pontosIdade + pontosAcs + pontosOutros;
 
-      expect(pontos, closeTo(95.06, 0.05));
-      expect(pontos, greaterThanOrEqualTo(83.0));
+      expect(resultado.pontosIdade, closeTo(pontosIdade, 0.000001));
+      expect(resultado.pontosAcs, closeTo(pontosAcs, 0.000001));
+      expect(resultado.pontosOutros, closeTo(pontosOutros, 0.000001));
+      expect(resultado.pontosCalculados, closeTo(pontos, 0.000001));
+      expect(resultado.pontosExigidos, 83.0);
+      expect(resultado.pontosCalculados, greaterThanOrEqualTo(83.0));
     });
 
     test('Diff de calendário calcula 1 dia na virada de ano', () {
@@ -138,10 +165,10 @@ void main() {
         anosOutroTempo: 0,
         mesesOutroTempo: 0,
         genero: Genero.feminino,
-        dataReferencia: DateTime(2026, 12, 31),
+        dataReferencia: DateTime(2022, 7, 2),
       );
 
-      expect(resultado.dataElegibilidade, DateTime(2027, 1, 1));
+      expect(resultado.dataElegibilidade, DateTime(2022, 7, 3));
       expect(resultado.anosFaltantes, 0);
       expect(resultado.mesesFaltantes, 0);
       expect(resultado.diasFaltantes, 1);
@@ -154,10 +181,10 @@ void main() {
         anosOutroTempo: 0,
         mesesOutroTempo: 0,
         genero: Genero.feminino,
-        dataReferencia: DateTime(2026, 1, 31),
+        dataReferencia: DateTime(2021, 12, 30),
       );
 
-      expect(resultado.dataElegibilidade, DateTime(2026, 2, 28));
+      expect(resultado.dataElegibilidade, DateTime(2022, 1, 30));
       expect(resultado.anosFaltantes, 0);
       expect(resultado.mesesFaltantes, 1);
       expect(resultado.diasFaltantes, 0);

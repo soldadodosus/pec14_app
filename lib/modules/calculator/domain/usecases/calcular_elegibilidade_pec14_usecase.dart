@@ -124,11 +124,6 @@ class CalcularElegibilidadePec14UseCase {
     final nascimentoBase = _DateUtils.dateOnly(nascimento);
     final inicioAcsAceBase = _DateUtils.dateOnly(inicioAcsAce);
 
-    final outrosAnos = anosOutros + (mesesOutros / 12.0);
-    if (outrosAnos < 15.0) {
-      return null;
-    }
-
     final idadeExigida = genero == Genero.feminino ? 60 : 63;
     final pontosExigidos = genero == Genero.feminino ? 83.0 : 86.0;
 
