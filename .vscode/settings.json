@@ -1,21 +1,4 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/windows",
-    "files.associations": {
-        "**/.dart_tool/version": "plaintext"
-    },
-    "C_Cpp.files.exclude": {
-        "**/.dart_tool/**": true,
-        "**/windows/flutter/**": true
-    },
-    "http.trustedDomains": [
-        "https://static.ampcode.com"
-    ],
-    "cSpell.language": "en,pt,pt-BR",
-    "cSpell.words": [
-        "AISAN",
-        "pubspec",
-        "usecase",
-        "usecases",
-        "viewmodels"
-    ]
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cmake.sourceDirectory": "D:/Dev/Projects/soldadodosus/pec14_app/windows"
 }

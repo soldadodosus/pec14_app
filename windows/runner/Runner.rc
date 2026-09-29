@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "j4ilton" "\0"
-            VALUE "FileDescription", "App PEC 14" "\0"
+            VALUE "CompanyName", "br.com.soldadodosus" "\0"
+            VALUE "FileDescription", "pec14_app" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "pec14_app" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 j4ilton" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 br.com.soldadodosus. All rights reserved." "\0"
             VALUE "OriginalFilename", "pec14_app.exe" "\0"
-            VALUE "ProductName", "App PEC 14" "\0"
+            VALUE "ProductName", "pec14_app" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
