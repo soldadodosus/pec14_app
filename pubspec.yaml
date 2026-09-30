@@ -2,7 +2,7 @@ name: pec14_app
 description: A new Flutter project.
 publish_to: none
 
-version: 2.2.0+15
+version: 2.2.1
 
 environment:
   sdk: ^3.11.1
