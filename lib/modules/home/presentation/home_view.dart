@@ -84,7 +84,7 @@ class HomeView extends StatelessWidget {
               ),
               SizedBox(height: context.rspSpacing(6)),
               Text(
-                '© 2026 jailtondev. Todos os direitos reservados.',
+                '© 2026 soldadodosus. Todos os direitos reservados.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: context.rsp(12),

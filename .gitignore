@@ -47,3 +47,5 @@ app.*.map.json
 
 # Releases locais
 /releases_finais/
+# Widget Preview related
+.widget_preview/
