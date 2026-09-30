@@ -83,6 +83,19 @@ void main() {
     );
   }
 
+  final linuxBuildDir = Directory('build/linux/x64/release/bundle');
+  final linuxOutputDir = Directory(
+    '${outputDir.path}/${appName}_v${versionString}_linux',
+  );
+  if (linuxBuildDir.existsSync()) {
+    _copyDirectory(linuxBuildDir, linuxOutputDir);
+    print('✅ Sucesso: Linux app copiado para ${linuxOutputDir.path}');
+  } else {
+    print(
+      '⚠️  Aviso: Build Linux não encontrado em ${linuxBuildDir.path}, pulando...',
+    );
+  }
+
   print('\n🎉 Processo finalizado!');
 }
 

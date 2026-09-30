@@ -1,13 +1,11 @@
-INSTRUÇÕES PARA CONFIGURAR O ÍCONE
-===================================
+FONTE DO ÍCONE PEC 14
+=====================
 
-1. Salve a imagem do ícone (PEC 14) nesta pasta com o nome: icon.png
-2. A imagem deve ter pelo menos 1024x1024 pixels para melhor qualidade
-3. Após salvar a imagem, execute o comando abaixo no terminal:
+A fonte oficial é ../assets/icons/app_icon.png. Use um PNG quadrado; 1024x1024 pixels ou maior é recomendado.
+
+Para regenerar os ícones Android, iOS, Web, Windows e macOS, execute na raiz do projeto:
 
    flutter pub get
    dart run flutter_launcher_icons
 
-4. Isso gerará automaticamente os ícones para todas as plataformas (Android, iOS, Web, etc.)
-
-IMPORTANTE: Não se esqueça de salvar a imagem como "icon.png" nesta pasta antes de executar os comandos.
+Os recursos Linux são incluídos pelo CMake do runner durante o build Linux.

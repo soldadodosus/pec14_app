@@ -1,42 +1,22 @@
-# Configuração do Ícone PEC 14
+# Configuração do ícone PEC 14
 
-## Passos para Configurar o Ícone
+## Fonte do ícone
 
-1. **Salvar a Imagem do Ícone**
-   - Salve a imagem do ícone fornecida na pasta `assets/` com o nome `icon.png`
-   - A imagem deve ter no mínimo 1024x1024 pixels para melhor qualidade
-   - Formatos suportados: PNG, JPG
+Use `assets/icons/app_icon.png` como fonte única. A imagem deve ser PNG quadrado; 1024 x 1024 pixels ou maior é recomendado. Preserve a arte inteira, sem recortá-la.
 
-2. **Instalar Dependências e Gerar Ícones**
-   Execute os seguintes comandos no terminal:
-   ```bash
-   flutter pub get
-   dart run flutter_launcher_icons
-   ```
+## Gerar os ícones
 
-3. **Resultado**
-   - Os ícones serão gerados automaticamente para todas as plataformas
-   - Android: ícones em várias resoluções + ícone adaptativo
-   - iOS: ícones em todas as resoluções necessárias
-   - Web: ícones 192x192 e 512x512
-   - Windows, macOS, Linux: ícones nativos
+Execute na raiz do projeto:
 
-## Alterações Realizadas
+```bash
+flutter pub get
+dart run flutter_launcher_icons
+```
 
-✅ Nome da aplicação alterado para "PEC 14" em:
-- Android (AndroidManifest.xml)
-- iOS (Info.plist)
-- macOS (Info.plist)
-- Web (manifest.json e index.html)
-- Windows (main.cpp e Runner.rc)
-- Linux (my_application.cc)
+O `flutter_launcher_icons` gera os ícones de Android (incluindo o adaptativo), iOS, Web, Windows e macOS.
 
-✅ Configuração do flutter_launcher_icons adicionada ao pubspec.yaml
+## Linux
 
-✅ Pasta assets/ criada para armazenar o ícone
+O gerador não cria os recursos Linux. O CMake do runner inclui a fonte no bundle, define o ícone da janela GTK e instala a imagem e a entrada `.desktop` nas pastas de recursos do bundle. Um instalador/distribuidor deve registrar esses recursos nos caminhos do sistema para que o aplicativo apareça no menu de aplicativos.
 
-## Observações
-
-- O nome "PEC 14" aparecerá na tela inicial do dispositivo
-- O ícone substituirá o ícone padrão do Flutter
-- Após gerar os ícones, teste em um dispositivo/emulador para verificar
+Depois de alterar a imagem, gere novamente os ícones suportados e compile o alvo Linux para atualizar o bundle.
