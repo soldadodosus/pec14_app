@@ -1,5 +1,6 @@
 class ResultadoAposentadoria {
   final DateTime dataElegibilidade;
+  final int idadeElegibilidade;
   final String regraAplicada;
   final int anosFaltantes;
   final int mesesFaltantes;
@@ -12,6 +13,7 @@ class ResultadoAposentadoria {
 
   ResultadoAposentadoria({
     required this.dataElegibilidade,
+    required this.idadeElegibilidade,
     required this.regraAplicada,
     required this.anosFaltantes,
     required this.mesesFaltantes,

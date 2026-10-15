@@ -125,6 +125,7 @@ class _CalcularElegibilidadeUseCaseSpy
     callCount += 1;
     return ResultadoAposentadoria(
       dataElegibilidade: DateTime(2030, 1, 1),
+      idadeElegibilidade: 50,
       regraAplicada: 'Regra teste',
       anosFaltantes: 1,
       mesesFaltantes: 0,

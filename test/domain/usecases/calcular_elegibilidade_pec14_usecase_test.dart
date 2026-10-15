@@ -29,6 +29,7 @@ void main() {
       );
 
       expect(resultado.dataElegibilidade, DateTime(2035, 9, 28));
+      expect(resultado.idadeElegibilidade, 53);
     });
 
     test('Regra 1/2 usa anos completos e aniversários (feminino)', () {

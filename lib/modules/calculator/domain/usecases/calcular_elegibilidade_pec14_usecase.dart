@@ -35,6 +35,10 @@ class CalcularElegibilidadePec14UseCase {
 
     return ResultadoAposentadoria(
       dataElegibilidade: dataElegibilidade,
+      idadeElegibilidade: _DateUtils.diffYmd(
+        dataNascimento,
+        dataElegibilidade,
+      ).anos,
       regraAplicada: melhorOpcao.nomeRegra,
       anosFaltantes: restante.anos,
       mesesFaltantes: restante.meses,

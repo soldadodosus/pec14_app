@@ -66,6 +66,13 @@ class ResultadoCard extends StatelessWidget {
             const SizedBox(height: 16),
             _buildInfoRow(
               context,
+              icone: Icons.cake,
+              titulo: 'Idade na elegibilidade',
+              valor: '${resultado.idadeElegibilidade} anos',
+            ),
+            const SizedBox(height: 16),
+            _buildInfoRow(
+              context,
               icone: Icons.gavel,
               titulo: 'Regra Aplicada',
               valor: resultado.regraAplicada,
