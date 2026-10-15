@@ -21,6 +21,7 @@ class DatePickerFormField extends StatelessWidget {
 
     final dataSelecionada = await showDatePicker(
       context: context,
+      locale: const Locale('pt', 'BR'),
       initialDate: dataFocoInicial,
       firstDate: DateTime(1930),
       lastDate: hoje,

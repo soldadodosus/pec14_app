@@ -177,6 +177,9 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                             border: OutlineInputBorder(),
                           ),
                           keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          autocorrect: false,
+                          enableSuggestions: false,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
@@ -195,6 +198,9 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                             border: OutlineInputBorder(),
                           ),
                           keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.done,
+                          autocorrect: false,
+                          enableSuggestions: false,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
