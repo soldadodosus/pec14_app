@@ -1,8 +1,10 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.configuration.updateBuildConfiguration": "automatic",
     "cmake.sourceDirectory": "D:/Dev/Projects/soldadodosus/pec14_app/windows",
     "chat.tools.terminal.autoApprove": {
         "flutter": true,
-        "java": true
-    }
+        "java": true,
+        ".\\gradlew.bat": true
+    },
+    "java.compile.nullAnalysis.mode": "automatic"
 }

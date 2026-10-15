@@ -53,8 +53,8 @@ class CalculadoraController extends ChangeNotifier {
     var novoAnos = _anosOutroTempo;
     var novoMeses = _mesesOutroTempo;
 
-    if (anos != null) novoAnos = anos;
-    if (meses != null) novoMeses = meses;
+    if (anos != null) novoAnos = anos < 0 ? 0 : anos;
+    if (meses != null) novoMeses = meses < 0 ? 0 : meses;
 
     if (novoMeses >= 12) {
       final anosExtra = novoMeses ~/ 12;
@@ -88,16 +88,8 @@ class CalculadoraController extends ChangeNotifier {
       return;
     }
 
-    final dataNascimento = DateTime(
-      _dataNascimento!.year,
-      _dataNascimento!.month,
-      _dataNascimento!.day,
-    );
-    final dataInicioAcsAce = DateTime(
-      _dataInicioAcsAce!.year,
-      _dataInicioAcsAce!.month,
-      _dataInicioAcsAce!.day,
-    );
+    final dataNascimento = _normalizarData(_dataNascimento!);
+    final dataInicioAcsAce = _normalizarData(_dataInicioAcsAce!);
 
     if (dataInicioAcsAce.isBefore(dataNascimento)) {
       _erroMensagem =
@@ -107,10 +99,9 @@ class CalculadoraController extends ChangeNotifier {
       return;
     }
 
-    final dataMinimaInicioExercicio = DateTime(
-      dataNascimento.year + _idadeMinimaInicioExercicio,
-      dataNascimento.month,
-      dataNascimento.day,
+    final dataMinimaInicioExercicio = _adicionarAnos(
+      dataNascimento,
+      _idadeMinimaInicioExercicio,
     );
     if (dataInicioAcsAce.isBefore(dataMinimaInicioExercicio)) {
       _erroMensagem =
@@ -152,6 +143,24 @@ class CalculadoraController extends ChangeNotifier {
     if (_erroMensagem == null) return;
     _erroMensagem = null;
     notifyListeners();
+  }
+
+  DateTime _normalizarData(DateTime data) {
+    if (data.day <= 28) return DateTime(data.year, data.month, data.day);
+
+    final ultimoDiaDoMes = DateTime(data.year, data.month + 1, 0).day;
+    final diaNormalizado = data.day > ultimoDiaDoMes ? ultimoDiaDoMes : data.day;
+    return DateTime(data.year, data.month, diaNormalizado);
+  }
+
+  DateTime _adicionarAnos(DateTime data, int anos) {
+    final totalMeses = (data.year * 12) + (data.month - 1) + (anos * 12);
+    final novoAno = totalMeses ~/ 12;
+    final novoMes = (totalMeses % 12) + 1;
+    final ultimoDiaDoMes = DateTime(novoAno, novoMes + 1, 0).day;
+    final diaNormalizado = data.day > ultimoDiaDoMes ? ultimoDiaDoMes : data.day;
+
+    return DateTime(novoAno, novoMes, diaNormalizado);
   }
 
   void _limparResultado() {

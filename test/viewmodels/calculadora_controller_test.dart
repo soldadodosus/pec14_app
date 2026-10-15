@@ -78,6 +78,21 @@ void main() {
       },
     );
 
+    test('permite início do ACS/ACE no aniversário de 14 anos para nascidos em 29/02', () {
+      final useCaseSpy = _CalcularElegibilidadeUseCaseSpy();
+      final controller = CalculadoraController(useCase: useCaseSpy);
+
+      controller.setDataNascimento(DateTime(2008, 2, 29));
+      controller.setDataInicioAcsAce(DateTime(2022, 2, 28));
+      controller.setGenero(Genero.masculino);
+
+      controller.calcular();
+
+      expect(controller.erroMensagem, isNull);
+      expect(controller.resultado, isNotNull);
+      expect(useCaseSpy.callCount, 1);
+    });
+
     test('retorna erro padronizado quando gênero não é informado', () {
       final useCaseSpy = _CalcularElegibilidadeUseCaseSpy();
       final controller = CalculadoraController(useCase: useCaseSpy);

@@ -1,3 +1,8 @@
+---
+name: plan-reorganizecalculadoralayout
+description: plan-reorganizeCalculadoraLayout
+disable-model-invocation: true
+---
 # Reorganizar layout da CalculadoraView
 
 ## Objetivo

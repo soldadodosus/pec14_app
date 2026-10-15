@@ -3,8 +3,12 @@ cmake_minimum_required(VERSION 3.14)
 
 set(EPHEMERAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ephemeral")
 
-# Configuration provided via flutter tool.
-include(${EPHEMERAL_DIR}/generated_config.cmake)
+# Configuration provided via flutter tool. The generated file is created by the
+# Flutter tool during configuration; guard it so stale local builds and IDE
+# loads do not fail before generation completes.
+if (EXISTS "${EPHEMERAL_DIR}/generated_config.cmake")
+  include(${EPHEMERAL_DIR}/generated_config.cmake)
+endif()
 
 # TODO: Move the rest of this into files in ephemeral. See
 # https://github.com/flutter/flutter/issues/57146.

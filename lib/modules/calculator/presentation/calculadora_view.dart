@@ -137,9 +137,9 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                         ? {_controller.genero!}
                         : <Genero>{},
                     onSelectionChanged: (newSelection) {
-                      if (newSelection.isNotEmpty) {
-                        _controller.setGenero(newSelection.first);
-                      }
+                      _controller.setGenero(
+                        newSelection.isNotEmpty ? newSelection.first : null,
+                      );
                     },
                     style: SegmentedButton.styleFrom(
                       visualDensity: VisualDensity.compact,
