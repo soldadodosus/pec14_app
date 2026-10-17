@@ -2,7 +2,7 @@ name: pec14_app
 description: Aplicativo de apoio a ACS, ACE, AIS e AISAN, com calculadora de elegibilidade previdenciária da PEC 14 e quizzes educativos.
 publish_to: none
 
-version: 2.2.3
+version: 2.2.3+16
 
 environment:
   sdk: ^3.11.1

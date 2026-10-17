@@ -268,8 +268,11 @@ dart run rename_builds.dart
 ## Observações Importantes
 
 - o aplicativo atualmente suporta apenas a localidade `pt_BR`;
-- o versionamento segue o formato `X.Y.Z+build` definido em `pubspec.yaml`;
-- a renomeação dos artefatos de release é automatizada por `rename_builds.dart`;
+- a versão do produto segue `X.Y.Z` e o número local de build fica em `+N` no `pubspec.yaml`;
+- no GitHub Actions, o número Android é gerado como `16 + GITHUB_RUN_NUMBER`, começando em 17 para ficar acima do último artefato `build15`;
+- cada push bem-sucedido em `main` publica uma GitHub Release `vX.Y.Z-buildN` com APK e AAB anexados;
+- em releases locais, aumente `N` em `X.Y.Z+N` a cada nova publicação;
+- `rename_builds.dart` usa o mesmo número de build passado pelo CI ou definido no `pubspec.yaml`;
 - o projeto utiliza uma arquitetura Flutter híbrida, mantendo a calculadora e o quiz como módulos separados dentro de `lib/modules/`.
 
 ## Licença e Uso

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-void main() {
+void main(List<String> args) {
   const appName = "AppPEC14";
 
   final pubspecFile = File('pubspec.yaml');
@@ -18,7 +18,33 @@ void main() {
     return;
   }
 
-  final versionString = match.group(1)!.trim().replaceAll('+', '_build');
+  final rawVersion = match.group(1)!.trim();
+  final versionParts = rawVersion.split('+');
+  if (versionParts.length > 2) {
+    print('❌ Erro: Formato de versão inválido: $rawVersion');
+    return;
+  }
+
+  String? buildNumber;
+  if (args.isNotEmpty) {
+    if (args.length != 2 || args.first != '--build-number') {
+      print('Uso: dart run rename_builds.dart [--build-number NUMERO]');
+      return;
+    }
+    buildNumber = args[1];
+  } else {
+    buildNumber = Platform.environment['BUILD_NUMBER'];
+  }
+  buildNumber ??= versionParts.length == 2 ? versionParts[1] : null;
+
+  if (buildNumber == null || !RegExp(r'^\d+$').hasMatch(buildNumber)) {
+    print(
+      '❌ Erro: Número de build inválido. Informe --build-number ou use X.Y.Z+N no pubspec.yaml.',
+    );
+    return;
+  }
+
+  final versionString = '${versionParts.first}_build$buildNumber';
 
   final filesToRename = {
     'build/app/outputs/flutter-apk/app-release.apk':
