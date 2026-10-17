@@ -22,6 +22,7 @@ void main() {
           hintText: '',
           initialDate: initialDate,
           onDateSelected: onDateSelected,
+          onKeyboardRequested: (_) {},
         ),
       ),
     );

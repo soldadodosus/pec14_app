@@ -5,6 +5,7 @@ import '../domain/enums/genero.dart';
 import 'calculadora_controller.dart';
 import 'widgets/date_picker_form_field.dart';
 import 'widgets/resultado_card.dart';
+import 'widgets/teclado_numerico.dart';
 
 class CalculadoraView extends StatefulWidget {
   const CalculadoraView({super.key});
@@ -19,6 +20,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
   late final TextEditingController _anosOutroTempoController;
   late final TextEditingController _mesesOutroTempoController;
   int _dataResetToken = 0;
+  TeclaNumericaHandler? _teclaNumericaAtiva;
 
   @override
   void initState() {
@@ -87,8 +89,25 @@ class _CalculadoraViewState extends State<CalculadoraView> {
   }
 
   void _limparCalculo() {
-    setState(() => _dataResetToken++);
+    setState(() {
+      _dataResetToken++;
+      _teclaNumericaAtiva = null;
+    });
     _controller.limparCalculo();
+  }
+
+  void _ativarTecladoNumerico(
+    TextEditingController campo,
+    ValueChanged<String> onChanged,
+  ) {
+    setState(() {
+      _teclaNumericaAtiva = (tecla) => aplicarTeclaNumerica(
+        controller: campo,
+        tecla: tecla,
+        formatter: FilteringTextInputFormatter.digitsOnly,
+        onChanged: onChanged,
+      );
+    });
   }
 
   @override
@@ -107,6 +126,12 @@ class _CalculadoraViewState extends State<CalculadoraView> {
           ),
         ],
       ),
+      bottomNavigationBar: _teclaNumericaAtiva == null
+          ? null
+          : TecladoNumerico(
+              onKeyPressed: _teclaNumericaAtiva!,
+              onDone: () => setState(() => _teclaNumericaAtiva = null),
+            ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -158,6 +183,8 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                     initialDate: _controller.dataNascimento,
                     resetToken: _dataResetToken,
                     onDateSelected: _controller.setDataNascimento,
+                    onKeyboardRequested: (handler) =>
+                        setState(() => _teclaNumericaAtiva = handler),
                   ),
                   const SizedBox(height: 16),
                   DatePickerFormField(
@@ -166,6 +193,8 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                     initialDate: _controller.dataInicioAcsAce,
                     resetToken: _dataResetToken,
                     onDateSelected: _controller.setDataInicioAcsAce,
+                    onKeyboardRequested: (handler) =>
+                        setState(() => _teclaNumericaAtiva = handler),
                   ),
                   const SizedBox(height: 24),
                   Text(
@@ -184,17 +213,20 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                             labelText: 'Anos',
                             border: OutlineInputBorder(),
                           ),
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.none,
                           textInputAction: TextInputAction.next,
                           autocorrect: false,
                           enableSuggestions: false,
+                          onTap: () => _ativarTecladoNumerico(
+                            _anosOutroTempoController,
+                            (value) => _controller.setOutroTempo(
+                              int.tryParse(value) ?? 0,
+                              null,
+                            ),
+                          ),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
-                          onChanged: (v) => _controller.setOutroTempo(
-                            int.tryParse(v) ?? 0,
-                            null,
-                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -205,17 +237,20 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                             labelText: 'Meses',
                             border: OutlineInputBorder(),
                           ),
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.none,
                           textInputAction: TextInputAction.done,
                           autocorrect: false,
                           enableSuggestions: false,
+                          onTap: () => _ativarTecladoNumerico(
+                            _mesesOutroTempoController,
+                            (value) => _controller.setOutroTempo(
+                              null,
+                              int.tryParse(value) ?? 0,
+                            ),
+                          ),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
-                          onChanged: (v) => _controller.setOutroTempo(
-                            null,
-                            int.tryParse(v) ?? 0,
-                          ),
                         ),
                       ),
                     ],

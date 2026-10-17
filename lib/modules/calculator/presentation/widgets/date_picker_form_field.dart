@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import 'teclado_numerico.dart';
+
 class DatePickerFormField extends StatefulWidget {
   final String label;
   final String hintText;
   final DateTime? initialDate;
   final ValueChanged<DateTime?> onDateSelected;
+  final ValueChanged<TeclaNumericaHandler?> onKeyboardRequested;
   final Object? resetToken;
 
   const DatePickerFormField({
@@ -14,6 +17,7 @@ class DatePickerFormField extends StatefulWidget {
     required this.label,
     required this.hintText,
     this.initialDate,
+    required this.onKeyboardRequested,
     this.resetToken,
     required this.onDateSelected,
   });
@@ -93,7 +97,17 @@ class _DatePickerFormFieldState extends State<DatePickerFormField> {
     widget.onDateSelected(_dataEmitida);
   }
 
+  void _onVirtualKey(String tecla) {
+    aplicarTeclaNumerica(
+      controller: _textController,
+      tecla: tecla,
+      formatter: const DataInputFormatter(),
+      onChanged: _onChanged,
+    );
+  }
+
   Future<void> _selecionarData(BuildContext context) async {
+    widget.onKeyboardRequested(null);
     final hoje = DateTime.now();
     var dataSelecionada = widget.initialDate ?? hoje;
 
@@ -153,12 +167,13 @@ class _DatePickerFormFieldState extends State<DatePickerFormField> {
 
     return TextFormField(
       controller: _textController,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.none,
       textInputAction: TextInputAction.next,
       autocorrect: false,
       enableSuggestions: false,
       inputFormatters: const [DataInputFormatter()],
       onChanged: _onChanged,
+      onTap: () => widget.onKeyboardRequested(_onVirtualKey),
       decoration: InputDecoration(
         labelText: widget.label,
         hintText: widget.hintText.isEmpty ? 'dd/MM/yyyy' : widget.hintText,
