@@ -68,16 +68,29 @@ void main() {
     );
   });
 
-  testWidgets('calendário abre somente ao tocar no ícone', (
+  testWidgets('calendário modal permite selecionar sem campo de digitação', (
     WidgetTester tester,
   ) async {
+    DateTime? dataSelecionada;
     await tester.pumpWidget(
-      buildTestApp(initialDate: DateTime(2000, 1, 1), onDateSelected: (_) {}),
+      buildTestApp(
+        initialDate: DateTime(2000, 1, 1),
+        onDateSelected: (data) => dataSelecionada = data,
+      ),
     );
 
     await tester.tap(find.byTooltip('Selecionar data de nascimento'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(DatePickerDialog), findsOneWidget);
+    expect(find.byType(CalendarDatePicker), findsOneWidget);
+    expect(find.byType(TextFormField), findsOneWidget);
+    expect(find.byType(TextField), findsOneWidget);
+    expect(find.byType(DatePickerDialog), findsNothing);
+
+    await tester.tap(find.text('15'));
+    await tester.tap(find.text('CONFIRMAR'));
+    await tester.pumpAndSettle();
+
+    expect(dataSelecionada, DateTime(2000, 1, 15));
   });
 }

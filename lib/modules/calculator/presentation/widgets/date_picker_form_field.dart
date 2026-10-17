@@ -95,18 +95,11 @@ class _DatePickerFormFieldState extends State<DatePickerFormField> {
 
   Future<void> _selecionarData(BuildContext context) async {
     final hoje = DateTime.now();
-    final dataFocoInicial = widget.initialDate ?? hoje;
+    var dataSelecionada = widget.initialDate ?? hoje;
 
-    final dataSelecionada = await showDatePicker(
+    final dataConfirmada = await showDialog<DateTime>(
       context: context,
-      locale: const Locale('pt', 'BR'),
-      initialDate: dataFocoInicial,
-      firstDate: DateTime(1930),
-      lastDate: hoje,
-      helpText: 'Selecione a ${widget.label}',
-      cancelText: 'CANCELAR',
-      confirmText: 'CONFIRMAR',
-      builder: (context, child) {
+      builder: (context) {
         return Theme(
           data: Theme.of(context).copyWith(
             datePickerTheme: DatePickerThemeData(
@@ -115,13 +108,41 @@ class _DatePickerFormFieldState extends State<DatePickerFormField> {
               ),
             ),
           ),
-          child: child!,
+          child: StatefulBuilder(
+            builder: (context, setDialogState) {
+              return AlertDialog(
+                title: Text('Selecione a ${widget.label}'),
+                content: SizedBox(
+                  width: 320,
+                  child: CalendarDatePicker(
+                    initialDate: dataSelecionada,
+                    firstDate: DateTime(1930),
+                    lastDate: hoje,
+                    currentDate: hoje,
+                    onDateChanged: (data) {
+                      setDialogState(() => dataSelecionada = data);
+                    },
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('CANCELAR'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(dataSelecionada),
+                    child: const Text('CONFIRMAR'),
+                  ),
+                ],
+              );
+            },
+          ),
         );
       },
     );
 
-    if (dataSelecionada != null && dataSelecionada != widget.initialDate) {
-      widget.onDateSelected(dataSelecionada);
+    if (dataConfirmada != null && dataConfirmada != widget.initialDate) {
+      widget.onDateSelected(dataConfirmada);
     }
   }
 
