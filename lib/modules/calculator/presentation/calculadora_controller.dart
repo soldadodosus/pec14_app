@@ -31,13 +31,13 @@ class CalculadoraController extends ChangeNotifier {
   String? get erroMensagem => _erroMensagem;
   bool get hasResultado => _resultado != null;
 
-  void setDataNascimento(DateTime data) {
+  void setDataNascimento(DateTime? data) {
     _dataNascimento = data;
     _limparResultado();
     notifyListeners();
   }
 
-  void setDataInicioAcsAce(DateTime data) {
+  void setDataInicioAcsAce(DateTime? data) {
     _dataInicioAcsAce = data;
     _limparResultado();
     notifyListeners();
@@ -149,7 +149,9 @@ class CalculadoraController extends ChangeNotifier {
     if (data.day <= 28) return DateTime(data.year, data.month, data.day);
 
     final ultimoDiaDoMes = DateTime(data.year, data.month + 1, 0).day;
-    final diaNormalizado = data.day > ultimoDiaDoMes ? ultimoDiaDoMes : data.day;
+    final diaNormalizado = data.day > ultimoDiaDoMes
+        ? ultimoDiaDoMes
+        : data.day;
     return DateTime(data.year, data.month, diaNormalizado);
   }
 
@@ -158,7 +160,9 @@ class CalculadoraController extends ChangeNotifier {
     final novoAno = totalMeses ~/ 12;
     final novoMes = (totalMeses % 12) + 1;
     final ultimoDiaDoMes = DateTime(novoAno, novoMes + 1, 0).day;
-    final diaNormalizado = data.day > ultimoDiaDoMes ? ultimoDiaDoMes : data.day;
+    final diaNormalizado = data.day > ultimoDiaDoMes
+        ? ultimoDiaDoMes
+        : data.day;
 
     return DateTime(novoAno, novoMes, diaNormalizado);
   }

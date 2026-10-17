@@ -31,7 +31,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final textFields = tester.widgetList<TextField>(find.byType(TextField));
-    expect(textFields.length, 2);
+    expect(textFields.length, 4);
     expect(
       textFields.every((field) => field.keyboardType == TextInputType.number),
       isTrue,

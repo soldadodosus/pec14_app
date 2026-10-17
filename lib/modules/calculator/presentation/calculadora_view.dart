@@ -18,6 +18,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
   String? _ultimaMensagemErroExibida;
   late final TextEditingController _anosOutroTempoController;
   late final TextEditingController _mesesOutroTempoController;
+  int _dataResetToken = 0;
 
   @override
   void initState() {
@@ -85,6 +86,11 @@ class _CalculadoraViewState extends State<CalculadoraView> {
     }
   }
 
+  void _limparCalculo() {
+    setState(() => _dataResetToken++);
+    _controller.limparCalculo();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -97,7 +103,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
           IconButton(
             icon: const Icon(Icons.refresh),
             tooltip: 'Limpar dados',
-            onPressed: _controller.limparCalculo,
+            onPressed: _limparCalculo,
           ),
         ],
       ),
@@ -150,6 +156,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                     label: 'Data de Nascimento',
                     hintText: '',
                     initialDate: _controller.dataNascimento,
+                    resetToken: _dataResetToken,
                     onDateSelected: _controller.setDataNascimento,
                   ),
                   const SizedBox(height: 16),
@@ -157,6 +164,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                     label: 'Início do Exercício ACS/ACE/AIS/AISAN',
                     hintText: '',
                     initialDate: _controller.dataInicioAcsAce,
+                    resetToken: _dataResetToken,
                     onDateSelected: _controller.setDataInicioAcsAce,
                   ),
                   const SizedBox(height: 24),
